@@ -1,5 +1,4 @@
 // ignore_for_file: unnecessary_string_escapes
-
 import 'question.dart';
 
 class QuizBrain {
@@ -44,5 +43,21 @@ class QuizBrain {
 
   bool getQuestionAnswer() {
     return _questionbank[_questionNumber].questionanswer;
+  }
+
+  bool isFinished() {
+    if (_questionNumber >= _questionbank.length - 1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  void reset() {
+    _questionNumber = 0;
+  }
+
+  int getQuestionNumber() {
+    return _questionNumber;
   }
 }

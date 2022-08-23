@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 // import 'package:quizzler_flutter/question.dart';
 // import 'question.dart';
 import 'quizbrain.dart';
+// import 'package:rflutter_alert/rflutter_alert.dart';
+import 'package:cool_alert/cool_alert.dart';
 
 void main() => runApp(const Quizzler());
 
@@ -38,6 +40,45 @@ class _QuizPageState extends State<QuizPage> {
 
   QuizBrain quizBrain = QuizBrain();
 
+  int correctAnswers = 0;
+
+  void checkAnswer(bool userAnswer) {
+    setState(() {
+      bool correctAnswer = quizBrain.getQuestionAnswer();
+      if (quizBrain.isFinished() == true) {
+        // for simple alert
+        // Alert(
+        //         context: context,
+        //         title: "The End",
+        //         desc: "You got $correctAnswers Answers correct")
+        //     .show();
+
+        CoolAlert.show(
+          context: context,
+          type: CoolAlertType.success,
+          text: "You got $correctAnswers Answers Right",
+        );
+        correctAnswers = 0;
+        quizBrain.reset();
+        scorekeeper = [];
+      } else {
+        if (correctAnswer == userAnswer) {
+          scorekeeper.add(Icon(
+            Icons.check,
+            color: Colors.green[500],
+          ));
+          correctAnswers++;
+        } else {
+          scorekeeper.add(Icon(
+            Icons.close,
+            color: Colors.red[500],
+          ));
+        }
+        quizBrain.nextQuestion();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -50,7 +91,7 @@ class _QuizPageState extends State<QuizPage> {
             padding: const EdgeInsets.all(10.0),
             child: Center(
               child: Text(
-                quizBrain.getQuestionText(),
+                '${quizBrain.getQuestionNumber() + 1}. ${quizBrain.getQuestionText()}',
                 textAlign: TextAlign.center,
                 style: const TextStyle(
                   color: Colors.white,
@@ -75,17 +116,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                setState(
-                  () {
-                    bool correctAnswer = quizBrain.getQuestionAnswer();
-                    if (correctAnswer == true) {
-                      scorekeeper.add(correctAns());
-                    } else {
-                      scorekeeper.add(wrongAns());
-                    }
-                    quizBrain.nextQuestion();
-                  },
-                );
+                checkAnswer(true);
               },
             ),
           ),
@@ -105,17 +136,7 @@ class _QuizPageState extends State<QuizPage> {
                 ),
               ),
               onPressed: () {
-                setState(
-                  () {
-                    bool correctAnswer = quizBrain.getQuestionAnswer();
-                    if (correctAnswer == false) {
-                      scorekeeper.add(correctAns());
-                    } else {
-                      scorekeeper.add(wrongAns());
-                    }
-                    quizBrain.nextQuestion();
-                  },
-                );
+                checkAnswer(false);
               },
             ),
           ),
