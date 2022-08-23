@@ -1,10 +1,6 @@
-// ignore_for_file: library_private_types_in_public_api
-
+// ignore_for_file: library_private_types_in_public_api, avoid_print
 import 'package:flutter/material.dart';
-// import 'package:quizzler_flutter/question.dart';
-// import 'question.dart';
 import 'quizbrain.dart';
-// import 'package:rflutter_alert/rflutter_alert.dart';
 import 'package:cool_alert/cool_alert.dart';
 
 void main() => runApp(const Quizzler());
@@ -46,13 +42,6 @@ class _QuizPageState extends State<QuizPage> {
     setState(() {
       bool correctAnswer = quizBrain.getQuestionAnswer();
       if (quizBrain.isFinished() == true) {
-        // for simple alert
-        // Alert(
-        //         context: context,
-        //         title: "The End",
-        //         desc: "You got $correctAnswers Answers correct")
-        //     .show();
-
         CoolAlert.show(
           context: context,
           type: CoolAlertType.success,
@@ -61,13 +50,14 @@ class _QuizPageState extends State<QuizPage> {
         correctAnswers = 0;
         quizBrain.reset();
         scorekeeper = [];
-      } else {
+      } else {git 
         if (correctAnswer == userAnswer) {
+          correctAnswers++;
+          print("Correct Answers: $correctAnswers");
           scorekeeper.add(Icon(
             Icons.check,
             color: Colors.green[500],
           ));
-          correctAnswers++;
         } else {
           scorekeeper.add(Icon(
             Icons.close,
@@ -148,23 +138,3 @@ class _QuizPageState extends State<QuizPage> {
     );
   }
 }
-
-Icon correctAns() {
-  return Icon(
-    Icons.check,
-    color: Colors.green[500],
-  );
-}
-
-Icon wrongAns() {
-  return Icon(
-    Icons.close,
-    color: Colors.red[500],
-  );
-}
-
-/*
-question1: 'You can lead a cow down stairs but not up stairs.', false,
-question2: 'Approximately one quarter of human bones are in the feet.', true,
-question3: 'A slug\'s blood is green.', true,
-*/

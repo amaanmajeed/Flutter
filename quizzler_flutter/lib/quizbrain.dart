@@ -1,4 +1,4 @@
-// ignore_for_file: unnecessary_string_escapes
+// ignore_for_file: unnecessary_string_escapes, avoid_print
 import 'question.dart';
 
 class QuizBrain {
@@ -58,6 +58,7 @@ class QuizBrain {
   }
 
   int getQuestionNumber() {
+    print("Question Number: ${_questionNumber + 1}");
     return _questionNumber;
   }
 }
