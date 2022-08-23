@@ -50,7 +50,7 @@ class _QuizPageState extends State<QuizPage> {
         correctAnswers = 0;
         quizBrain.reset();
         scorekeeper = [];
-      } else {git 
+      } else {
         if (correctAnswer == userAnswer) {
           correctAnswers++;
           print("Correct Answers: $correctAnswers");
